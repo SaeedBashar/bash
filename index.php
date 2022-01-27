@@ -1,80 +1,108 @@
+<?php
+   require_once 'partials/connection.php';
+
+   if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        $email = $_POST['email'];
+        $pword = $_POST['pword'];
+
+        $statement = $pdo->prepare("select * from users where email= :email and password= :pword");
+        $statement->bindValue(':email', $email);
+        $statement->bindValue(':pword', $pword);
+
+        $statement->execute();
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        if($user){
+            session_start();
+            $_SESSION['tmpuser'] = $user['user_name'];
+
+            // echo '<script>
+            //          alert("good"); 
+            //          location.assign("home.php")
+            //       </script>';
+            header('location: home.php');
+        }
+   }
+?>
+
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="./static/style.css"/>
-    <title>Document</title>
+
+    <link rel='stylesheet' href='lib/bootstrap/css/bootstrap.min.css' />
+    <title>Bash | Login</title>
+    <style>
+        .signin-top {
+            height: 60px;
+        }
+        .signin{
+            height: auto;
+            width: 100%;
+            margin: auto;
+        }
+        
+        @media screen and (min-width: 450px){
+            .signin{
+                width: 275px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+        }
+        @media screen and (max-width: 449px){
+            .signin{
+                border: none !important;
+            }
+        }
+
+        .signin .btn {
+            border-radius: 15px;
+        }
+
+        .new-here small:last-of-type {
+            margin: auto;
+            display: block;
+            width: 125px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row index-top">
-            <div class="col-sm-3 offset-sm-2 index-title">Bash</div>
-            <div class="col-sm-6 offset-sm-1">
-                <form class="login-form">
-                   <div class="email-log">
-                      <label for="email">Email</label><br/>
-                      <input type="email" class="form-control" />
-                   </div>
-                   <div class="pword-log">
-                      <label for="password">Password</label><br/>
-                      <input type="password" class="form-control" />
-                   </div>
-                   <div class="">
-                       <div class="keep-login"><input type="checkbox" /><span class="pl-2">Keep me signed in</span></div>
-                       <div class="pl-4"><a href="#">Forgot your password?</a></div>
-                   </div>
-                   <!-- <input class="btn btn-info" type="submit" value="submit" /> -->
-                </form>
+    <div class="container">
+        <div class="row signin-top mt-3 mb-3">
+            <div class="col p-2">
+                <h3>Bash</h3>
             </div>
         </div>
-        <div class="row pt-5 main-cont">
-            <div class="col-sm-6 main-left">
-                <div>Bash helps you connect and share with the people in your life.</div>
-                <img class="connect-img" src="./assets/img/connect.png" alt="connnects people">
-            </div>
-            <div class="col-sm-6 main-right">
-                <div class="signup">
-                    <h3>Sign Up</h3>
-                    <p>It's free forever</p>
+        <div class="row">
+            <div class="signin p-4 pb-5 border">
+                <div class='border-bottom mb-4'>
+                    <h2>Sign in</h2>
+                    <small>Stay connected with your social world</small>
                 </div>
-                <form>
+                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method='POST' >
                     <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="firstname">
-                    </div>
-                    <div class="form-group">
-                        <label>Last/other Names</label>
-                        <input type="email" class="form-control" placeholder="othernames">
+                        <input type="email" class="form-control" name='email' placeholder='Email address' />
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Email address</label>
-                        <input type="email" class="form-control" placeholder="email">
+                        <input type="password" class="form-control" name='pword' placeholder='password' />
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" placeholder="password">
+                        <a href="#"><small>Forgot password?</small></a>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Confirm Password</label>
-                        <input type="password" class="form-control" placeholder="password">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Gender</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                        <option>Male</option>
-                        <option>Female</option>
-                        </select>
-                    </div>
-                    <div>
-                        <input class="btn btn-info" type="submit" value="Submit" />
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm btn-block">Sign in</button>
                 </form>
+                <div class='new-here mt-3'>
+                    <small>
+                        <span>New to Bash?</span>
+                        <a href="#">Sign up</a>
+                    </small>
+                </div>
             </div>
         </div>
     </div>
-    <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src='lib/bootstrap/js/jquery/jquery.min.js'></script>
+    <script src='lib/bootstrap/js/bootstrap.bundle.min.js'></script>
 </body>
 </html>
