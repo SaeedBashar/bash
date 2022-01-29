@@ -92,7 +92,7 @@
                         <input type="password" class="form-control" name='pword' placeholder='password' />
                     </div>
                     <div class="form-group">
-                        <a href="#"><small>Forgot password?</small></a>
+                        <a href="views/forgot_password/forgot_password.php"><small>Forgot password?</small></a>
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm btn-block">Sign in</button>
                 </form>
