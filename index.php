@@ -21,7 +21,7 @@
             //          alert("good"); 
             //          location.assign("home.php")
             //       </script>';
-            header('location: home.php');
+            header('location: ./views/bash_home/home.php');
         }
    }
 ?>
@@ -36,6 +36,9 @@
     <link rel='stylesheet' href='lib/bootstrap/css/bootstrap.min.css' />
     <title>Bash | Login</title>
     <style>
+        body {
+            background-color: #F0F2F5;
+        }
         .signin-top {
             height: 60px;
         }
