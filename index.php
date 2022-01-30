@@ -15,7 +15,7 @@
         
         if($user){
             session_start();
-            $_SESSION['tmpuser'] = $user['user_name'];
+            $_SESSION['tmpuser'] = $user['user_id'];
 
             // echo '<script>
             //          alert("good"); 

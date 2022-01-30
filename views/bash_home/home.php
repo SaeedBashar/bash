@@ -1,5 +1,13 @@
 <?php
+
+    session_start();
     require_once '../../partials/connection.php';
+
+    $st = $pdo->prepare("select * from users where user_id=:id");
+    $st->bindValue(':id', $_SESSION['tmpuser']);
+    $st->execute();
+    $user = $st->fetch(PDO::FETCH_ASSOC);
+    
    
     if(isset($_GET['search'])){
         $query = $_GET['search'];
@@ -13,7 +21,7 @@
         exit;
     }
 
-    session_start();
+    
     
 ?>
 
@@ -142,10 +150,13 @@
         <div class="home-left pt-3">
         <ul>
             <li><a href="../bash_profile/timeline/timeline.php">
-                  <?php if(false) { ?>
-                    <i class="fa fa-user pr-1"></i>
-                  <?php } else { echo "<i class='fa fa-user pr-1'></i>"; } ?>
-                  <?php echo $_SESSION['tmpuser'] ?>
+                  <?php if($user['image'] != "") { ?>
+                    <img src="<?php echo '../../lib/Assets/img/'.$user['image'] ?>"style="width:25px;height:25px" alt="">
+                  <?php } else { 
+                      echo "<i class='fa fa-user pr-1'></i>"; 
+                      } 
+                      echo "<b>".$user['user_name']."</b>";
+                    ?>
                 </a>
             </li>
             <li><a href="#news"><i class="fa fa-users pr-1"></i>Friends</a></li>
@@ -153,9 +164,9 @@
             <li><a href="../bash_profile/timeline/timeline.php"><i class="fa fa-shopping-basket pr-1"></i>Timeline</a></li>
             <li><a href="../bash_profile/about/about.php"><i class="fa fa-tv pr-1"></i>About</a></li>
             <li><a href="../bash_profile/photos/photos.php"><i class="fa fa-clock pr-1"></i>Photos</a></li>
+            <li><a href="#about"><i class="fa fa-tv pr-1"></i>Watch</a></li>
             <li><a href="#about"><i class="fa fa-tag pr-1"></i>Settings</a></li>
-            <!-- <li><a href="#about"><i class="fa fa-flag pr-1"></i>Pages</a></li>
-            <li><a href="#about"><i class="fa fa-calendar pr-1"></i>Events</a></li>
+            <!-- <li><a href="#about"><i class="fa fa-calendar pr-1"></i>Events</a></li>
             <li><a href="#about"><i class="fa fa-star pr-1"></i>Favoutites</a></li>
             <li><a href="#about">See more</a></li> -->
         </ul>
